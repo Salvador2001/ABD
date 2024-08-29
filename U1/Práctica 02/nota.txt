@@ -1,0 +1,68 @@
+Alternativa: No Relacionar Multas con Préstamos Directamente
+En lugar de vincular multas directamente a los préstamos, podrías optar por un esquema en el que las multas se relacionen únicamente con los usuarios y se calculen basándose en los datos de los préstamos, pero sin una relación directa en la base de datos. Aquí te muestro cómo sería este diseño alternativo:
+
+Tablas y Relaciones Modificadas
+Usuarios
+
+Usuarios (id_usuario, tipo_usuario, nombre_completo, correo_electronico, telefono, fecha_registro)
+Libros
+
+Libros (isbn, titulo, autor, editorial, año_publicacion, ejemplares_totales, ejemplares_prestados)
+Préstamos
+
+Prestamos (id_prestamo, id_usuario, isbn, fecha_prestamo, fecha_devolucion_previs, estado, fecha_devolucion_real)
+Multas
+
+Multas (id_multas, id_usuario, monto_por_dia, fecha_pago)
+id_multas: Identificador único de la multa.
+id_usuario: Identificador del usuario al que se le aplicó la multa (relación con la tabla Usuarios).
+monto_por_dia: Monto fijo por día de retraso.
+fecha_pago: Fecha en que se pagó la multa (null si aún no se ha pagado).
+Implicaciones y Gestión
+Cálculo de Multas:
+
+Las multas se calcularían basado en los datos de los préstamos. Por ejemplo, podrías tener una función o procedimiento en la base de datos o en la lógica de la aplicación que calcule las multas basándose en los préstamos devueltos tarde.
+Deberías tener una manera de determinar qué préstamos están retrasados y calcular el monto de la multa basándote en la fecha de devolución real y la fecha prevista de devolución.
+Actualización de Multas:
+
+En lugar de tener una referencia directa en la tabla de multas al préstamo, tendrías que actualizar la tabla de Multas basándote en la información de los préstamos cuando se calcule una multa.
+Esto puede ser hecho periódicamente mediante un proceso automatizado o manual.
+Restricciones y Validaciones:
+
+Aunque no tienes una relación directa, deberás asegurarte de que la lógica de negocio respete las reglas, como la imposibilidad de realizar nuevos préstamos si hay multas pendientes.
+Esta lógica debe estar implementada en el nivel de aplicación o como parte de las reglas de la base de datos.
+Esquema de Entidades
+Aquí está el esquema con las tablas:
+
+Usuarios:
+
+id_usuario (PK)
+tipo_usuario
+nombre_completo
+correo_electronico
+telefono
+fecha_registro
+Libros:
+
+isbn (PK)
+titulo
+autor
+editorial
+año_publicacion
+ejemplares_totales
+ejemplares_prestados
+Préstamos:
+
+id_prestamo (PK)
+id_usuario (FK)
+isbn (FK)
+fecha_prestamo
+fecha_devolucion_previs
+estado
+fecha_devolucion_real
+Multas:
+
+id_multas (PK)
+id_usuario (FK)
+monto_por_dia
+fecha_pago
