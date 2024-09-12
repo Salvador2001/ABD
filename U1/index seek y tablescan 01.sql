@@ -67,4 +67,6 @@ INSERT INTO Empleados (Nombre, Apellido, Ciudad, FechaContratacion, Salario)
 VALUES    ('juan', 'perez', 'culiacan', '2023-01-10', 60000)
 go 10000
 
-select *
+SELECT *
+FROM Empleados
+WHERE Apellido = 'perez'
